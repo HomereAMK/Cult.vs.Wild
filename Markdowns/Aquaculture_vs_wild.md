@@ -25,7 +25,7 @@ Loch Nell vs Loch Ryan and Sydkoster vs Svallhagen_Tjärnö(or RAMS, LILL, KALV)
 
 
 
-## get maf per pop with minIND= 10%
+## get maf/saf per pop with minIND= 10%
     REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
     POP=(NELL RYAN SYDK SVAL RAMS LILL KALV)
     for i1 in `seq 0 $((${#POP[@]}-2))`
@@ -57,6 +57,7 @@ $$$$$$$$$$$$$$$$$$
         done
     done > /home/projects/dp_00007/people/hmon/Cult.vs.Wild/03_Fst_based/Sept22_Cult.vs.Wild_mindIND0.1--Fst.tsv
 
+$$$$$$$$$$$$$$$$$$
 
 ## sfs with a sliding window step nolist 15kb 15kb
     POP=("NELL" "RYAN" "SYDK" "SVALL" "RAMS" "LILL" "KALV")
