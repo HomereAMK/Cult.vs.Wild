@@ -31,7 +31,7 @@ Loch Nell vs Loch Ryan and Sydkoster vs Svallhagen_Tjärnö(or RAMS, LILL, KALV)
 
 ## Create fst list 
 
-    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV")
+    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
 
     for query in ${POP[*]}
     do 
@@ -44,20 +44,8 @@ Loch Nell vs Loch Ryan and Sydkoster vs Svallhagen_Tjärnö(or RAMS, LILL, KALV)
 ## get maf/saf per pop with minIND= 10%
 ```
     REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
-    POP=(NELL RYAN CLEW SYDK RAMS KALV)
-    for i1 in `seq 0 $((${#POP[@]}-2))`
-    do
-        pop1="${POP[i1]}"
-        N_IND=`cat /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list | wc -l`
-        angsd -nThreads 20 -ref $REF -anc $REF -bam /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list \
-        -uniqueOnly 1 -remove_bads 1 -only_proper_pairs 1 -trim 0 -C 50 -baq 1 \
-        -minMapQ 20 -minQ 20 -setMinDepthInd 1 -setMinDepth 600 -setMaxDepth 1200 \
-        -GL 1 -doSaf 1 -out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Jan23--Unfolded_Cult.vs.Wild_${POP[i1]}
-        done
-    done
-```
-👎
-```
+    POP=(NELL RYAN CLEW SYDK RAMS KALV TRAL)
+
 for i1 in `seq 0 $((${#POP[@]}-2))`
 do
     angsd -nThreads 10 \
@@ -72,18 +60,10 @@ done
 ```
 🤝
 
-angsd -nThreads 10 \
-	-b /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_KALV-Fst.list \
-	-anc $REF \
-	-ref $REF \
-	-out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Jan23--setMinDepth100Unfolded_Cult.vs.Wild_KALV \
-	-dosaf 1 -GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1 -doDepth 1 -dumpCounts 1 \
-	-minMapQ 20 -minQ 20 -setMinDepthInd 1 -setMinDepth 100 -setMaxDepth 1200 \
-	-remove_bads 1 -only_proper_pairs 1 -C 50 
 
 ## get the sfs step
     cd /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/
-    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV")
+    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
     for i1 in `seq 0 $((${#POP[@]}-2))`
     do
         for i2 in `seq $((i1+1)) $((${#POP[@]}-1))`
@@ -102,11 +82,15 @@ angsd -nThreads 10 \
         done
     done > /home/projects/dp_00007/people/hmon/Cult.vs.Wild/03_Fst_based/Jan23_Cult.vs.Wild_proper_setMinDepth100_Fst.tsv
 
-
+POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
+for query in ${POP[*]}
+    do 
+    realSFS Jan23--setMinDepth100Unfolded_Cult.vs.Wild_NELL.saf.idx Jan23--setMinDepth100Unfolded_Cult.vs.Wild_${query}.saf.idx -fold 1 -P 40 > /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/NELL.${query}_setMinDepth100Jan23.sfs
+done
 
 ## sfs with a sliding window step nolist 15kb 15kb
 #on the 4th oct 22 I run all the comparison except the ones that include KALV (saf file for KALV did not run for some reason)
-    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV")
+    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
     for i1 in `seq 0 $((${#POP[@]}-2))`
     do
         for i2 in `seq $((i1+1)) $((${#POP[@]}-1))`
@@ -128,7 +112,7 @@ angsd -nThreads 10 \
 
 ## sfs with a sliding window step nolist 5kb 5kb
 #on the 4th oct 22 I run all the comparison except the ones that include KALV (saf file for KALV did not run for some reason)
-    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV")
+    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
     for i1 in `seq 0 $((${#POP[@]}-2))`
     do
         for i2 in `seq $((i1+1)) $((${#POP[@]}-1))`
