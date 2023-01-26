@@ -72,142 +72,14 @@ fulldf <- rbind(NELL.RYAN_CvsWUp, NELL.SYDK_CvsWUp, SYDK.RAMS_CvsWUp, SYDK.KALV_
 
 
 
-###### Load and format the data 2 ########
-setwd("~/Desktop/Scripts/Data/Cult.vs.Wild/")
-
-# Loads datasets ~ SLFst5kb/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23 Cult vs Wild dataset
-NELL.RYAN_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_NELL.RYAN_5KB_5KB--Fst.tsv", header = FALSE)
-NELL.TRAL_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_NELL.TRAL_5KB_5KB--Fst.tsv", header = FALSE)
-NELL.SYDK_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_NELL.SYDK_5KB_5KB--Fst.tsv", header = FALSE)
-NELL.RAMS_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_NELL.RAMS_5KB_5KB--Fst.tsv", header = FALSE)
-NELL.KALV_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_NELL.KALV_5KB_5KB--Fst.tsv", header = FALSE)
-SYDK.RAMS_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_SYDK.RAMS_5KB_5KB--Fst.tsv", header = FALSE)
-SYDK.KALV_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_SYDK.KALV_5KB_5KB--Fst.tsv", header = FALSE)
-SYDK.RYAN_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_RYAN.SYDK_5KB_5KB--Fst.tsv", header = FALSE)
-SYDK.TRAL_CvsW <- read.table("SLFst5kb_propersetMinDepth100Jan23/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_SYDK.TRAL_5KB_5KB--Fst.tsv", header = FALSE)
-
-
-
-colnames(NELL.RYAN_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(NELL.TRAL_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(NELL.SYDK_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(NELL.RAMS_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(NELL.KALV_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(SYDK.RAMS_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(SYDK.KALV_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(SYDK.RYAN_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-colnames(SYDK.TRAL_CvsW) <- c("CHR", "SNP", "gPoint", "END", "NumberOfSites", "Fst")
-
-NELL.RYAN_CvsW <- NELL.RYAN_CvsW[order(as.numeric(substr(NELL.RYAN_CvsW$CHR, 9, nchar(NELL.RYAN_CvsW$CHR)))), ] #super important
-NELL.RYAN_CvsW$Species <- factor(paste("Loch Nell C (SCO) vs. Loch Ryan W (SCO)"))
-NELL.RYAN_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(NELL.RYAN_CvsW))
-
-NELL.TRAL_CvsW <- NELL.TRAL_CvsW[order(as.numeric(substr(NELL.TRAL_CvsW$CHR, 9, nchar(NELL.TRAL_CvsW$CHR)))), ] #super important
-NELL.TRAL_CvsW$Species <- factor(paste("Loch Nell C (SCO) vs. Tralee Bay W (IRE)"))
-NELL.TRAL_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(NELL.TRAL_CvsW))
-
-NELL.SYDK_CvsW <- NELL.SYDK_CvsW[order(as.numeric(substr(NELL.SYDK_CvsW$CHR, 9, nchar(NELL.SYDK_CvsW$CHR)))), ] #super important
-NELL.SYDK_CvsW$Species <- factor(paste("Loch Nell C (SCO) vs.  Sydkoster C (SWE)"))
-NELL.SYDK_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(NELL.SYDK_CvsW))
-
-NELL.RAMS_CvsW <- NELL.RAMS_CvsW[order(as.numeric(substr(NELL.RAMS_CvsW$CHR, 9, nchar(NELL.RAMS_CvsW$CHR)))), ] #super important
-NELL.RAMS_CvsW$Species <- factor(paste("Loch Nell C (SCO) vs.  Ramsholmen W (SWE)"))
-NELL.RAMS_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(NELL.RAMS_CvsW))
-
-NELL.KALV_CvsW <- NELL.KALV_CvsW[order(as.numeric(substr(NELL.KALV_CvsW$CHR, 9, nchar(NELL.KALV_CvsW$CHR)))), ] #super important
-NELL.KALV_CvsW$Species <- factor(paste("Loch Nell C (SCO) vs.  Kalvö W (SWE)"))
-NELL.KALV_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(NELL.KALV_CvsW))
-
-SYDK.RAMS_CvsW <- SYDK.RAMS_CvsW[order(as.numeric(substr(SYDK.RAMS_CvsW$CHR, 9, nchar(SYDK.RAMS_CvsW$CHR)))), ] #super important
-SYDK.RAMS_CvsW$Species <- factor(paste("Sydkoster C  (SWE) vs. Ramsholmen W (SWE)"))
-SYDK.RAMS_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(SYDK.RAMS_CvsW))
-
-SYDK.KALV_CvsW <- SYDK.KALV_CvsW[order(as.numeric(substr(SYDK.KALV_CvsW$CHR, 9, nchar(SYDK.KALV_CvsW$CHR)))), ] #super important
-SYDK.KALV_CvsW$Species <- factor(paste(" Sydkoster C (SWE) vs. Kalvö W (SWE) "))
-SYDK.KALV_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(SYDK.KALV_CvsW))
-
-SYDK.RYAN_CvsW <- SYDK.RYAN_CvsW[order(as.numeric(substr(SYDK.RYAN_CvsW$CHR, 9, nchar(SYDK.RYAN_CvsW$CHR)))), ] #super important
-SYDK.RYAN_CvsW$Species <- factor(paste(" Sydkoster C (SWE) vs. Loch Ryan W (SCO)"))
-SYDK.RYAN_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(SYDK.RYAN_CvsW))
-
-SYDK.TRAL_CvsW <- SYDK.TRAL_CvsW[order(as.numeric(substr(SYDK.TRAL_CvsW$CHR, 9, nchar(SYDK.TRAL_CvsW$CHR)))), ] #super important
-SYDK.TRAL_CvsW$Species <- factor(paste(" Sydkoster C (SWE) vs. Tralee Bay W (IRE)"))
-SYDK.TRAL_CvsW$gPoint_c <- seq(15000, by = 15000, length.out = nrow(SYDK.TRAL_CvsW))
-
-
-NELL.RYAN_CvsW_CHR_IDs <- as.data.frame(unique(NELL.RYAN_CvsW$CHR)); colnames(NELL.RYAN_CvsW_CHR_IDs) <- c("CHR")
-NELL.RYAN_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(NELL.RYAN_CvsW_CHR_IDs))
-NELL.RYAN_CvsWUp <- merge(NELL.RYAN_CvsW, NELL.RYAN_CvsW_CHR_IDs, by = "CHR")
-NELL.RYAN_CvsWUp <- NELL.RYAN_CvsWUp %>% arrange(CHR_IDs)
-NELL.RYAN_CvsWUp$CHR_State <- ifelse(NELL.RYAN_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-NELL.TRAL_CvsW
-NELL.TRAL_CvsW_CHR_IDs <- as.data.frame(unique(NELL.TRAL_CvsW$CHR)); colnames(NELL.TRAL_CvsW_CHR_IDs) <- c("CHR")
-NELL.TRAL_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(NELL.TRAL_CvsW_CHR_IDs))
-NELL.TRAL_CvsWUp <- merge(NELL.TRAL_CvsW, NELL.TRAL_CvsW_CHR_IDs, by = "CHR")
-NELL.TRAL_CvsWUp <- NELL.TRAL_CvsWUp %>% arrange(CHR_IDs)
-NELL.TRAL_CvsWUp$CHR_State <- ifelse(NELL.TRAL_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-NELL.SYDK_CvsW_CHR_IDs <- as.data.frame(unique(NELL.SYDK_CvsW$CHR)); colnames(NELL.SYDK_CvsW_CHR_IDs) <- c("CHR")
-NELL.SYDK_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(NELL.SYDK_CvsW_CHR_IDs))
-NELL.SYDK_CvsWUp <- merge(NELL.SYDK_CvsW, NELL.SYDK_CvsW_CHR_IDs, by = "CHR")
-NELL.SYDK_CvsWUp <- NELL.SYDK_CvsWUp %>% arrange(CHR_IDs)
-NELL.SYDK_CvsWUp$CHR_State <- ifelse(NELL.SYDK_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-NELL.RAMS_CvsW_CHR_IDs <- as.data.frame(unique(NELL.RAMS_CvsW$CHR)); colnames(NELL.RAMS_CvsW_CHR_IDs) <- c("CHR")
-NELL.RAMS_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(NELL.RAMS_CvsW_CHR_IDs))
-NELL.RAMS_CvsWUp <- merge(NELL.RAMS_CvsW, NELL.RAMS_CvsW_CHR_IDs, by = "CHR")
-NELL.RAMS_CvsWUp <- NELL.RAMS_CvsWUp %>% arrange(CHR_IDs)
-NELL.RAMS_CvsWUp$CHR_State <- ifelse(NELL.RAMS_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-NELL.KALV_CvsW
-NELL.KALV_CvsW_CHR_IDs <- as.data.frame(unique(NELL.KALV_CvsW$CHR)); colnames(NELL.KALV_CvsW_CHR_IDs) <- c("CHR")
-NELL.KALV_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(NELL.RAMS_CvsW_CHR_IDs))
-NELL.KALV_CvsWUp <- merge(NELL.KALV_CvsW, NELL.KALV_CvsW_CHR_IDs, by = "CHR")
-NELL.KALV_CvsWUp <- NELL.KALV_CvsWUp %>% arrange(CHR_IDs)
-NELL.KALV_CvsWUp$CHR_State <- ifelse(NELL.KALV_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-SYDK.RAMS_CvsW_CHR_IDs <- as.data.frame(unique(SYDK.RAMS_CvsW$CHR)); colnames(SYDK.RAMS_CvsW_CHR_IDs) <- c("CHR")
-SYDK.RAMS_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(SYDK.RAMS_CvsW_CHR_IDs))
-SYDK.RAMS_CvsWUp <- merge(SYDK.RAMS_CvsW, SYDK.RAMS_CvsW_CHR_IDs, by = "CHR")
-SYDK.RAMS_CvsWUp <- SYDK.RAMS_CvsWUp %>% arrange(CHR_IDs)
-SYDK.RAMS_CvsWUp$CHR_State <- ifelse(SYDK.RAMS_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-SYDK.KALV_CvsW_CHR_IDs <- as.data.frame(unique(SYDK.KALV_CvsW$CHR)); colnames(SYDK.KALV_CvsW_CHR_IDs) <- c("CHR")
-SYDK.KALV_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(SYDK.KALV_CvsW_CHR_IDs))
-SYDK.KALV_CvsWUp <- merge(SYDK.KALV_CvsW, SYDK.KALV_CvsW_CHR_IDs, by = "CHR")
-SYDK.KALV_CvsWUp <- SYDK.KALV_CvsWUp %>% arrange(CHR_IDs)
-SYDK.KALV_CvsWUp$CHR_State <- ifelse(SYDK.KALV_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-SYDK.RYAN_CvsW_CHR_IDs
-SYDK.RYAN_CvsW_CHR_IDs <- as.data.frame(unique(SYDK.RYAN_CvsW$CHR)); colnames(SYDK.RYAN_CvsW_CHR_IDs) <- c("CHR")
-SYDK.RYAN_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(SYDK.RYAN_CvsW_CHR_IDs))
-SYDK.RYAN_CvsWUp <- merge(SYDK.RYAN_CvsW, SYDK.RYAN_CvsW_CHR_IDs, by = "CHR")
-SYDK.RYAN_CvsWUp <- SYDK.RYAN_CvsWUp %>% arrange(CHR_IDs)
-SYDK.RYAN_CvsWUp$CHR_State <- ifelse(SYDK.RYAN_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-SYDK.TRAL_CvsW_CHR_IDs <- as.data.frame(unique(SYDK.TRAL_CvsW$CHR)); colnames(SYDK.TRAL_CvsW_CHR_IDs) <- c("CHR")
-SYDK.TRAL_CvsW_CHR_IDs$CHR_IDs <- seq.int(nrow(SYDK.TRAL_CvsW_CHR_IDs))
-SYDK.TRAL_CvsWUp <- merge(SYDK.TRAL_CvsW, SYDK.TRAL_CvsW_CHR_IDs, by = "CHR")
-SYDK.TRAL_CvsWUp <- SYDK.TRAL_CvsWUp %>% arrange(CHR_IDs)
-SYDK.TRAL_CvsWUp$CHR_State <- ifelse(SYDK.TRAL_CvsWUp$CHR_IDs %% 2 == 0, "Even", "Odd")
-
-# Gets column names ~
-#fulldf <- rbind(NELL.RYANUp,CLEW.NELLUp, CLEW.RYANUp)
-fulldf_sco <- rbind(NELL.RYAN_CvsWUp, NELL.TRAL_CvsWUp, NELL.RAMS_CvsWUp, NELL.KALV_CvsWUp, NELL.SYDK_CvsWUp)
-fulldf_swe <- rbind(NELL.SYDK_CvsWUp, SYDK.RAMS_CvsWUp, SYDK.KALV_CvsWUp, SYDK.RYAN_CvsWUp, SYDK.TRAL_CvsWUp)
-
-
-
-
 ###### Create plots ########
 Fst_Plot_CultvsWild_20oct22 <-
   ggplot() +
-  geom_point(data = fulldf_sco, aes(x = gPoint_c, y = Fst, fill= CHR_State, colour = CHR_State), shape = 21, size = 1, alpha = 0.4) +
+  geom_point(data = fulldf, aes(x = gPoint_c, y = Fst, fill= CHR_State, colour = CHR_State), shape = 21, size = .1, alpha = 0.4) +
   facet_rep_grid(Species~. , scales = "free_x") +
   scale_x_continuous("Chromosomes",
                      expand = c(.005, .005)) +
-  scale_y_continuous("Fst (5Kb Sliding Windows)",
+  scale_y_continuous("Fst (15Kb Sliding Windows)",
                      breaks = c(.30, .60, .90), 
                      labels = c(".30", ".60", ".90"),
                      limits = c(0, .99),
@@ -233,7 +105,6 @@ Fst_Plot_CultvsWild_20oct22 <-
         legend.background = element_blank()) +
   guides(colour = "none", fill = "none")
 last_plot()
-
 ggsave(Fst_Plot_CultvsWild_20oct22, file = "~/Desktop/Scripts/Cult.vs.Wild/Figures/Fst_15kbwin_15kbsteps_CultvsWildpops_minind0.1/RYANvsNELL_SYDKvsRAMS_15kb15kb_mindind0.1.pdf",
        device = cairo_pdf, scale = 1, width = 30, height = 15, dpi = 300)
 dev.off()
@@ -289,7 +160,7 @@ dev.off()
 # Create the ggplot object and add the data
  
 top01pctplot <- ggplot() +
-  geom_point(data = fulldf_sco, aes(x = gPoint_c, y = Fst, fill = CHR_State, colour = CHR_State), shape = 21, size = .1, alpha = 0.4) +
+  geom_point(data = fulldf, aes(x = gPoint_c, y = Fst, fill = CHR_State, colour = CHR_State), shape = 21, size = .1, alpha = 0.4) +
   
   # Calculate the top 1% of Fst for each species and add the points to the plot
   geom_point(data = fulldf %>% group_by(Species) %>% top_n(n = floor(n() * 0.001), Fst),
@@ -356,7 +227,7 @@ write_tsv(fulldf_outliers_ID, "~/Desktop/Scripts/Cult.vs.Wild/Figures/Jan23--LIS
 fulldf_outliers$scaled_gPoint_c <- as.numeric(as.factor(fulldf_outliers$gPoint_c))
 #Plot outliers on chr 1,2 and 10 using the scaled variabl
 Outlier_plot2 <- ggplot(fulldf_outliers, aes(x=scaled_gPoint_c, y=Fst, color=outlier_status, shape=CHR_IDs)) +
-  geom_point(size=ifelse(fulldf_outliers$outlier_status == "FALSE", 1, 4),aes(shape = CHR)) +
+  geom_point(size=ifelse(fulldf_outliers$outlier_status == "FALSE", 0.2, 4),aes(shape = CHR)) +
   scale_x_discrete("Pos",
                    expand = c(.005, .005)) +
   facet_wrap(~Species, ncol = 1) +  
@@ -364,6 +235,7 @@ Outlier_plot2 <- ggplot(fulldf_outliers, aes(x=scaled_gPoint_c, y=Fst, color=out
   theme_cowplot()+
   theme_bw() +
   theme(panel.border = element_blank(),
+        panel.grid.minor = element_blank(),
         axis.line = element_line(colour = "#000000", size = .3),
         axis.title.x = element_text(size = 15, face = "bold", color = "#000000", margin = margin(t = 30, r = 0, b = 0, l = 0)),
         axis.title.y = element_text(size = 15, face = "bold", color = "#000000", margin = margin(t = 0, r = 30, b = 0, l = 0)),
@@ -406,7 +278,7 @@ lg01_sequence <- Oedu[(grep("scaffold1", Oedu)-1):grep("scaffold2", Oedu)] %>% s
 lg01_outlier <- str_sub(lg01_sequence, 89242500, 106387500)
 
 lg02_sequence <- Oedu[(grep("scaffold2", Oedu)-1):grep("scaffold3", Oedu)] %>% str_c(collapse = "")
-lg02_outlier <- str_sub(lg02_sequence, 24442500, 24452500)
+lg02_outlier <- str_sub(lg21_sequence, 90967500, 104572500)
 
 # read the fasta file
 Oedu2 <- read.fasta("../../../IGV/fileOegenome10scaffoldC3G.fasta")
@@ -422,9 +294,4 @@ outlier_fasta <- c(
   ">LG10_outlier",
   lg10_outlier
 )
-
-outlier_fasta_chr2 <- c(
-  ">LG02_outlier",
-  lg02_outlier)
-
-write_lines(outlier_fasta_chr2, "../Cult.vs.Wild/chr2_NELLvsRYAN&SYDK_fst_outlier.fasta")
+write_lines(outlier_fasta, "../angsd/popminind5/bam_list_realigned_mincov_filtered_mindp60_maxdp337_minind33_minq20_popminind5_fst_outlier.fasta")
