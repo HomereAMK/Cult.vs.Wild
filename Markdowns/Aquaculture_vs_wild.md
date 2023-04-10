@@ -31,7 +31,7 @@ Loch Nell vs Loch Ryan and Sydkoster vs Svallhagen_Tjärnö(or RAMS, LILL, KALV)
 
 ## Create fst list 
 
-    POP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV" "TRAL")
+    POP=("NELL" "RYAN" "SYDK" "RAMS" "KALV" "TRAL")
 
     for query in ${POP[*]}
     do 
@@ -41,25 +41,7 @@ Loch Nell vs Loch Ryan and Sydkoster vs Svallhagen_Tjärnö(or RAMS, LILL, KALV)
 
 
 
-## get maf/saf per pop with minIND= 10%
-```
-    REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
-    POP=(NELL RYAN CLEW SYDK RAMS KALV TRAL)
-
-for i1 in `seq 0 $((${#POP[@]}-2))`
-do
-    angsd -nThreads 10 \
-	-b /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list \
-	-anc $REF \
-	-ref $REF \
-	-out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Jan23--setMinDepth100Unfolded_Cult.vs.Wild_${POP[i1]} \
-	-dosaf 1 -GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1 -doDepth 1 -dumpCounts 1 \
-	-minMapQ 20 -minQ 20 -setMinDepthInd 1 -setMinDepth 100 -setMaxDepth 1200 \
-	-remove_bads 1 -only_proper_pairs 1 -C 50 
-done
-```
-🤝
-
+## get saf per pop with minIND= 25%
 ```
 for i1 in `seq 0 $((${#POP[@]}-2))`
 do
@@ -71,10 +53,10 @@ do
     -out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/26Jan23--mindInd0.25_Unfolded_Cult.vs.Wild_${POP[i1]} \
     -remove_bads 1 -uniqueOnly 1 -only_proper_pairs 1 -C 50 \
     -minMapQ 20 -minQ 20 -minInd $((N_IND*1/4)) \
-    -GL 1 -doSaf 1 -out 
+    -GL 1 -doSaf 1
 done
 ```
-
+🤝
 
 ## get the sfs step
 ```
@@ -159,11 +141,20 @@ done
         do
             pop1="${POP[i1]}"
             pop2="${POP[i2]}"
-                realSFS fst stats2 /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/${POP[i1]}.${POP[i2]}_setMinDepth100Jan23.fst.idx -win 5000 -step 5000 | cut -f 2- | tail -n +2 | awk '{print $1"\t"$1":"$2"\t"$2-5000"\t"$2"\t"$3"\t"$4}' > /home/projects/dp_00007/people/hmon/Cult.vs.Wild/03_Fst_based/SLFst5kb/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_${POP[i1]}.${POP[i2]}_5KB_5KB--Fst.tsv 
+                realSFS fst stats2 /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/26Jan23--mindInd0.25_Unfolded_${POP[i1]}.${POP[i2]}.fst.idx -win 5000 -step 5000 | cut -f 2- | tail -n +2 | awk '{print $1"\t"$1":"$2"\t"$2-5000"\t"$2"\t"$3"\t"$4}' > /home/projects/dp_00007/people/hmon/Cult.vs.Wild/03_Fst_based/SLFst5kb/Jan23_Cult.vs.Wild_propersetMinDepth100Jan23_${POP[i1]}.${POP[i2]}_5KB_5KB--Fst.tsv 
         done
     done
 🤝
 
+    for i1 in `seq 0 $((${#POP[@]}-2))`
+    do
+        for i2 in `seq $((i1+1)) $((${#POP[@]}-1))`
+        do
+            pop1="${POP[i1]}"
+            pop2="${POP[i2]}"
+                realSFS fst stats2 /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/26Jan23--mindInd0.25_Unfolded_${POP[i1]}.${POP[i2]}.fst.idx -win 5000 -step 5000 | cut -f 2- | tail -n +2 | awk '{print $1"\t"$1":"$2"\t"$2-5000"\t"$2"\t"$3"\t"$4}' > /home/projects/dp_00007/people/hmon/Cult.vs.Wild/03_Fst_based/SLFst5kb/26Jan23--mindInd0.25_Unfolded_${POP[i1]}.${POP[i2]}_5KB_5KB--Fst.tsv 
+        done
+    done
 
 ## sfs with a sliding window step nolist 1kb 1kb
     POP=("NELL" "RYAN" "SYDK" "RAMS" "KALV" "TRAL")
