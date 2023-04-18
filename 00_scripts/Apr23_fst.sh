@@ -38,8 +38,7 @@ wait
 for i1 in `seq 0 $((${#POP[@]}-2))`
 do
     N_IND=`cat /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list | wc -l`
-    /home/projects/dp_00007/apps/Scripts/wrapper_angsd.sh -debug 2 -nThreads 10 \ 
-    -b /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list \
+    angsd -b /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list \
     -anc $REF \
     -ref $REF \
     -out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]} \
