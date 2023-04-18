@@ -46,8 +46,10 @@ module load R/4.0.0
 TRIAL=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221
 zcat $TRIAL.mafs.gz | tail -n +2 | cut -f 1,2 > $TRIAL.LD.pos
 ##### Run ngsLD (needs to give the number of sites)
-NSITES=`zcat /home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.pos.gz | wc -l `
-/home/projects/dp_00007/apps/ngsLD/ngsLD --n_threads 40 --geno $TRIAL.beagle.gz --probs --n_ind 100 --n_sites $NSITES --pos $TRIAL.LD.pos --max_kb_dist 20 | pigz -p 40 >  $TRIAL.max_kb_dist20.LD.gz
+#8596795
+#
+NSITES=`wc -l /home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.LD.pos`
+/home/projects/dp_00007/apps/ngsLD/ngsLD --n_threads 40 --geno $TRIAL.beagle.gz --probs --n_ind 100 --n_sites 8596794 --pos $TRIAL.LD.pos --max_kb_dist 20 | pigz -p 40 >  $TRIAL.max_kb_dist20.LD.gz
 ##### Set variables-- the chromosomes
 CHRs=("scaffold1" "scaffold2" "scaffold3" "scaffold4" "scaffold5" "scaffold6" "scaffold7" "scaffold8" "scaffold9" "scaffold10")
 ##### Splits ngsLD file per chromosome:
