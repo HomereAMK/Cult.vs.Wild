@@ -4,7 +4,7 @@
 #PBS -N pcangsdApr23
 #PBS -e pcangsdApr23.err
 #PBS -o pcangsdApr23.out
-#PBS -l nodes=2:ppn=20:thinnode
+#PBS -l nodes=1:ppn=30:thinnode
 #PBS -l walltime=200:00:00
 #PBS -l mem=100gb
 #PBS -m n
@@ -24,21 +24,30 @@ module load pcangsd/20220330
 
 BAMLIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Apr23--Cult.vs.Wild_VC_bamlist
 LG_LIST=/home/projects/dp_00007/people/hmon/EUostrea/01_infofiles/List_scaffold_28jan23.txt
-THREADS=15
+THREADS=17
 SNP_LIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
 REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
 EXTRA_ARG='-remove_bads 1 -only_proper_pairs 1 -C 50'
+MINDP=73 # Minimum depth filter
+MAXDP=221 # Maximum depth filter
+MINQ=20 # Minimum quality filter
+MINMAF=0.01 # Minimum minor allele frequency filter
+MINMAPQ=20 # Minimum mapping quality (alignment score) filter, default value is 20
 
 
 
 ## Re-run angsd LD Pruned SNPs list minweight0.2 Global dataset 
 angsd -b $BAMLIST -ref $REF -out $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221 \
--doMajorMinor 3 -doCounts 1 -doIBS 1 -makematrix 1 -doCov 1 \
--minQ 20 -minMapQ 20 \
+-GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1 -doDepth 1 -maxDepth 10000 -dumpCounts 1 -doIBS 1 -makematrix 1 -doCov 1 \
+-setMinDepth $MINDP -setMaxDepth $MAXDP \
+-minQ $MINQ -minMapQ $MINMAPQ \
+-SNP_pval 1e-6 -minMaf $MINMAF \
 -P $THREADS \
-$EXTRA_ARG \
+$EXTRA_ARG -rmTriallelic 0.05 -trim 0 -baq 1 \
 -sites $SNP_LIST \
 -rf $LG_LIST
+
+
 
 #pcangsd
 pcangsd -b $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.beagle.gz \
@@ -49,7 +58,7 @@ pcangsd -b $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMin
 --snp_weights \
 --pcadapt \
 --maf_save \
---threads 40 \
+--threads 30 \
 --admix \
 -e 10 \
 -o $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_pcangsde10

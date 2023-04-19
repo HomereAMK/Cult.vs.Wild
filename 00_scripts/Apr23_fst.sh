@@ -59,16 +59,12 @@ do
         pop1="Apr23_globallist_mindInd0.25_${POP[i1]}"
         pop2="Apr23_globallist_mindInd0.25_${POP[i2]}"
         N_SITES=`realSFS print $pop1.saf.idx $pop2.saf.idx | wc -l`
-         echo -ne "${POP[i1]}\t${POP[i2]}\t$N_SITES\t"
-        if [[ $N_SITES == 0 ]]; then
-            echo "NA"
-        else
-            realSFS $pop1.saf.idx $pop2.saf.idx -fold 1 -P 40 > /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}.sfs
-            realSFS fst index $pop1.saf.idx $pop2.saf.idx -sfs /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}.sfs -fold 1 -P 40 -fstout /home/projects/dp_00007/data/hmon/angsd_Fst/EUostrea/6feb23--mindInd0.25_Unfolded_EUostrea_globalList_${POP[i1]}.${POP[i2]}
-            realSFS fst stats /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}.fst.idx -P 40
-            fi
-        done
-done > /home/projects/dp_00007/data/hmon/Cult.vs.Wild/Apr23_globallist_mindInd0.25_Fst.tsv
+        realSFS $pop1.saf.idx $pop2.saf.idx -fold 1 -P 40 > /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}2.sfs
+        realSFS fst index $pop1.saf.idx $pop2.saf.idx -sfs /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}2.sfs -fold 1 -P 40 -fstout /home/projects/dp_00007/data/hmon/angsd_Fst/EUostrea/6feb23--mindInd0.25_Unfolded_EUostrea_globalList_${POP[i1]}.${POP[i2]}2
+        realSFS fst stats /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}2.fst.idx -P 40
+            
+    done
+done > /home/projects/dp_00007/data/hmon/Cult.vs.Wild/Apr23_globallist_mindInd0.25_Fst2.tsv
 
 wait
 
@@ -78,7 +74,7 @@ do
      do
         pop1="${POP[i1]}"
         pop2="${POP[i2]}"
-        realSFS fst stats2 /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}.fst.idx -win 15000 -step 15000 | cut -f 2- | tail -n +2 | awk '{print $1"\t"$1":"$2"\t"$2-15000"\t"$2"\t"$3"\t"$4}' > /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}_15KB_15KB--Fst.tsv 
+        realSFS fst stats2 /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}2.fst.idx -win 15000 -step 15000 | cut -f 2- | tail -n +2 | awk '{print $1"\t"$1":"$2"\t"$2-15000"\t"$2"\t"$3"\t"$4}' > /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_globallist_mindInd0.25_${POP[i1]}.${POP[i2]}_15KB_15KB--Fst2.tsv 
     done
 done
 

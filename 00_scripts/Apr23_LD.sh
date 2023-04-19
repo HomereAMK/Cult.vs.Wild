@@ -18,6 +18,12 @@ module load pigz/2.3.4
 module load parallel/20210722
 module load angsd/0.940
 
+#
+module load perl/5.30.2
+module load pandas-profiling/3.0.0
+module load graph-tool/2.43
+module load parallel/20220422
+
 #pcangsd
 module load tools computerome_utils/2.0
 module load pcangsd/20220330 
@@ -86,21 +92,24 @@ wait
 
 cat $OUTPUTFOLDER/*.pruneIN > $OUTPUTFOLDER/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.pruneIN
 
+
+#
 # rm(list=ls(all.names = TRUE))
-# library(tidyverse)
-# basedir="/home/projects/dp_00007/people/hmon/Cult.vs.Wild"  
-# chr<- c("scaffold1:", "scaffold2:", "scaffold3:", "scaffold4:", "scaffold5:",
-#         "scaffold6:", "scaffold7:", "scaffold8:", "scaffold9:", "scaffold10:")
-# pruned_position <- read_lines(paste0(basedir, "/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.pruneIN")) %>% 
-#   str_remove("scaffold10:") %>% str_remove("scaffold1:") %>% str_remove("scaffold2:") %>% 
-#   str_remove("scaffold3:") %>% str_remove("scaffold4:") %>% str_remove("scaffold5:") %>%
-#   str_remove("scaffold6:") %>% str_remove("scaffold7:") %>% str_remove("scaffold8:") %>%
-#   str_remove("scaffold9:") %>% 
-#   as.integer()
-# pruned_position
-# pruned_snp_list <- read_tsv(paste0(basedir, "/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.mafs.gz"))%>%
-#   dplyr::select(1:4) %>%
-#   filter(position %in% pruned_position)
-# write_tsv(pruned_snp_list, paste0(basedir, "/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt"), col_names = F)
+ library(tidyverse)
+ basedir="/home/projects/dp_00007/people/hmon"  
+ chr<- c("scaffold1:", "scaffold2:", "scaffold3:", "scaffold4:", "scaffold5:",
+         "scaffold6:", "scaffold7:", "scaffold8:", "scaffold9:", "scaffold10:")
+ pruned_position <- read_lines(paste0(basedir, "/EUostrea/03_datasets/LDpruning/Dec22.LD.AllCHRs.min_weight0.5.pruneIN")) %>% 
+   str_remove("scaffold10:") %>% str_remove("scaffold1:") %>% str_remove("scaffold2:") %>% 
+   str_remove("scaffold3:") %>% str_remove("scaffold4:") %>% str_remove("scaffold5:") %>%
+   str_remove("scaffold6:") %>% str_remove("scaffold7:") %>% str_remove("scaffold8:") %>%
+   str_remove("scaffold9:") %>% 
+   as.integer()
+ pruned_position
+ pruned_snp_list <- read_tsv(paste0(basedir, "/Cult.vs.Wild/02_angsdOutput/Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.mafs.gz"))%>%
+   dplyr::select(1:4) %>%
+   filter(position %in% pruned_position)
+ write_tsv(pruned_snp_list, paste0(basedir, "/Cult.vs.Wild/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt"), col_names = F)
 
 angsd sites index $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
+
