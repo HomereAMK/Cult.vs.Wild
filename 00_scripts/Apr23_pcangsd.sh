@@ -33,7 +33,7 @@ MAXDP=221 # Maximum depth filter
 MINQ=20 # Minimum quality filter
 MINMAF=0.01 # Minimum minor allele frequency filter
 MINMAPQ=20 # Minimum mapping quality (alignment score) filter, default value is 20
-
+OUTPUTFOLDER=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput
 
 
 ## Re-run angsd LD Pruned SNPs list minweight0.2 Global dataset 
