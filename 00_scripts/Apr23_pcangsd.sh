@@ -5,8 +5,8 @@
 #PBS -e pcangsdApr23.err
 #PBS -o pcangsdApr23.out
 #PBS -l nodes=1:ppn=30:thinnode
-#PBS -l walltime=200:00:00
-#PBS -l mem=100gb
+#PBS -l walltime=100:00:00
+#PBS -l mem=70gb
 #PBS -m n
 #PBS -r n
 
@@ -47,7 +47,20 @@ $EXTRA_ARG -rmTriallelic 0.05 -trim 0 -baq 1 \
 -sites $SNP_LIST \
 -rf $LG_LIST
 
+wait
 
+## Create a SNP list to use in downstream analyses
+gunzip -c $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.mafs.gz | cut -f 1,2,3,4 | tail -n +2 > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
+
+angsd sites index $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
+
+## Also make it in regions format for downstream analyses
+cut -f 1,2 $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt | sed 's/\t/:/g' > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_regions.txt
+
+## Lastly, extract a list of chromosomes/LGs/scaffolds for downstream analysis
+cut -f1 $OUTPUTFOLDER/global_snp_list_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt | sort | uniq > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.chrs
+
+wait
 
 #pcangsd
 pcangsd -b $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.beagle.gz \
