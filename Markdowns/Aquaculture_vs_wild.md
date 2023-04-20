@@ -427,3 +427,62 @@ done
 
 ```
 
+
+
+
+> 19 apr23, Iqsub the angsd and pcangsd with the LDpruned list
+```bash
+BAMLIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Apr23--Cult.vs.Wild_VC_bamlist
+LG_LIST=/home/projects/dp_00007/people/hmon/EUostrea/01_infofiles/List_scaffold_28jan23.txt
+THREADS=8
+SNP_LIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
+REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
+EXTRA_ARG='-remove_bads 1 -only_proper_pairs 1 -C 50'
+MINDP=73 # Minimum depth filter
+MAXDP=221 # Maximum depth filter
+MINQ=20 # Minimum quality filter
+MINMAF=0.01 # Minimum minor allele frequency filter
+MINMAPQ=20 # Minimum mapping quality (alignment score) filter, default value is 20
+OUTPUTFOLDER=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput
+
+
+## Re-run angsd LD Pruned SNPs list minweight0.2 Global dataset 
+angsd -b $BAMLIST -ref $REF -out $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub \
+-GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1 -doDepth 1 -maxDepth 10000 -dumpCounts 1 -doIBS 1 -makematrix 1 -doCov 1 \
+-setMinDepth $MINDP -setMaxDepth $MAXDP \
+-minQ $MINQ -minMapQ $MINMAPQ \
+-SNP_pval 1e-6 -minMaf $MINMAF \
+-P $THREADS \
+$EXTRA_ARG -rmTriallelic 0.05 -trim 0 -baq 1 \
+-sites $SNP_LIST \
+-rf $LG_LIST
+
+wait
+
+## Create a SNP list to use in downstream analyses
+gunzip -c $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.mafs.gz | cut -f 1,2,3,4 | tail -n +2 > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.txt
+
+angsd sites index $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.txt
+
+## Also make it in regions format for downstream analyses
+cut -f 1,2 $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.txt | sed 's/\t/:/g' > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub_regions.txt
+
+## Lastly, extract a list of chromosomes/LGs/scaffolds for downstream analysis
+cut -f1 $OUTPUTFOLDER/global_snp_list_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt | sort | uniq > $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.chrs
+
+wait
+
+#pcangsd
+pcangsd -b $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_iqsub.beagle.gz \
+--selection \
+--selection_e 10 \
+--pcadapt \
+--sites_save \
+--snp_weights \
+--pcadapt \
+--maf_save \
+--threads 30 \
+--admix \
+-e 10 \
+-o $OUTPUTFOLDER/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221_pcangsde10
+```

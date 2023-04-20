@@ -42,7 +42,7 @@ module load R/4.0.0
 
 #get glf
 REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
-POP=("NELL" "RYAN" "TRAL" "SYDK" "RAMS" "KALV")
+POP=("NELL" "RYAN" "ClEW" "SYDK" "RAMS" "KALV")
 SNP_LIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
 NGSRELATE=/home/projects/dp_00007/people/hmon/Software/ngsRelate/ngsRelate
 LG_LIST=/home/projects/dp_00007/people/hmon/EUostrea/01_infofiles/List_scaffold_28jan23.txt
