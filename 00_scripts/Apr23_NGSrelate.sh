@@ -42,23 +42,23 @@ module load R/4.0.0
 
 #get glf
 REF=/home/projects/dp_00007/people/hmon/AngsdPopStruct/01_infofiles/fileOegenome10scaffoldC3G.fasta
-POP=("NELL" "RYAN" "ClEW" "SYDK" "RAMS" "KALV")
+OP=("NELL" "RYAN" "CLEW" "SYDK" "RAMS" "KALV")
 SNP_LIST=/home/projects/dp_00007/people/hmon/Cult.vs.Wild/02_angsdOutput/LDprunedlist_Apr23_VC_minq20_minMaf0.01_nominInd_setMinDepth73_setMaxDepth221.txt
 NGSRELATE=/home/projects/dp_00007/people/hmon/Software/ngsRelate/ngsRelate
 LG_LIST=/home/projects/dp_00007/people/hmon/EUostrea/01_infofiles/List_scaffold_28jan23.txt
-THREADS=15
+THREADS=12
 
 for query in ${POP[*]}
 do
-    N_IND=`cat /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list | wc -l`
-    angsd -bam /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${POP[i1]}-Fst.list \
+    N_IND=`cat /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${query}-Fst.list | wc -l`
+    angsd -bam /home/projects/dp_00007/people/hmon/Cult.vs.Wild/01_infofiles/Jan23--Cult.vs.Wild_${query}-Fst.list \
     -ref $REF \
     -P $THREADS \
-    -out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_LDprunedSNPlist_mindInd0.75_Unfolded_Cult.vs.Wild_${POP[i1]} \
-    -GL 1 -doGlf 3 -doMaf 1 -minmaf 0.05 -doHWE 1 -doMajorMinor 3 \
+    -out /home/projects/dp_00007/data/hmon/angsd_Fst/Cult.vs.Wild/Apr23_LDprunedSNPlist_mindInd0.75_Unfolded_Cult.vs.Wild_${query} \
+    -GL 1 -doGlf 3 -doMaf 1 -minmaf 0.05 -doMajorMinor 3 \
     -sites $SNP_LIST -rf $LG_LIST \
     -minMapQ 20 -minQ 20 \
-    -minInd $((N_IND*2/3)) -dosnpstat 1 -hwe_pval 1e-6 -SNP_pval 1e-6 
+    -minInd $((N_IND*2/3)) -SNP_pval 1e-6 
 done
 
 wait
